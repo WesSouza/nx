@@ -1,4 +1,4 @@
-import { cypressProjectGenerator } from '@nrwl/cypress';
+import { cypressProjectGenerator } from '@nrwl/cypress/src/generators/cypress-project/cypress-project';
 import { Tree } from '@nrwl/devkit';
 import { NormalizedSchema } from './normalize-options';
 import { Linter } from '@nrwl/linter';

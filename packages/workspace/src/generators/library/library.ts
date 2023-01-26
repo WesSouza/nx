@@ -21,9 +21,10 @@ import { join } from 'path';
 import { runTasksInSerial } from '../../utilities/run-tasks-in-serial';
 import {
   getRelativePathToRootTsConfig,
+  getRootTsConfigFileName,
   getRootTsConfigPathInTree,
-} from '../../utilities/typescript';
-import { nxVersion } from '../../utils/versions';
+} from '../../utilities/ts-config';
+import { nxVersion, typescriptVersion } from '../../utils/versions';
 import { Schema } from './schema';
 
 export interface NormalizedSchema extends Schema {
@@ -172,7 +173,7 @@ async function addJest(
   options: NormalizedSchema
 ): Promise<GeneratorCallback> {
   await ensurePackage(tree, '@nrwl/jest', nxVersion);
-  const { jestProjectGenerator } = require('@nrwl/jest');
+  const { jestProjectGenerator } = require('@nrwl/jest/generators');
   return await jestProjectGenerator(tree, {
     ...options,
     project: options.name,
@@ -185,17 +186,24 @@ async function addJest(
   });
 }
 
+async function addTypescript(tree: Tree, options: NormalizedSchema) {
+  if (!options.js) {
+    await ensurePackage(tree, 'typescript', typescriptVersion);
+  }
+
+  // add tsconfig.base.json
+  if (!options.skipTsConfig && !getRootTsConfigFileName()) {
+    generateFiles(tree, joinPathFragments(__dirname, './files/root'), '.', {});
+  }
+}
+
 export async function libraryGenerator(tree: Tree, schema: Schema) {
   const options = normalizeOptions(tree, schema);
-
-  createFiles(tree, options);
-
-  if (!options.skipTsConfig) {
-    updateRootTsConfig(tree, options);
-  }
-  addProject(tree, options);
-
   const tasks: GeneratorCallback[] = [];
+
+  await addTypescript(tree, options);
+  createFiles(tree, options);
+  addProject(tree, options);
 
   if (options.linter !== 'none') {
     const lintCallback = await addLint(tree, options);
@@ -204,6 +212,9 @@ export async function libraryGenerator(tree: Tree, schema: Schema) {
   if (options.unitTestRunner === 'jest') {
     const jestCallback = await addJest(tree, options);
     tasks.push(jestCallback);
+  }
+  if (!options.skipTsConfig) {
+    updateRootTsConfig(tree, options);
   }
 
   if (!options.skipFormat) {

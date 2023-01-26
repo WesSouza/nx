@@ -1,5 +1,6 @@
 import {
   formatFiles,
+  GeneratorCallback,
   installPackagesTask,
   moveFilesToNewDirectory,
   readNxJson,
@@ -7,7 +8,6 @@ import {
   Tree,
   updateNxJson,
 } from '@nrwl/devkit';
-import { wrapAngularDevkitSchematic } from '@nrwl/devkit/ngcli-adapter';
 import { join } from 'path';
 import { UnitTestRunner } from '../../utils/test-runners';
 import { angularInitGenerator } from '../init/init';
@@ -39,7 +39,7 @@ import { lt } from 'semver';
 export async function applicationGenerator(
   tree: Tree,
   schema: Partial<Schema>
-) {
+): Promise<GeneratorCallback> {
   const installedAngularVersionInfo = getInstalledAngularVersionInfo(tree);
 
   if (lt(installedAngularVersionInfo.version, '14.1.0') && schema.standalone) {
@@ -63,6 +63,9 @@ export async function applicationGenerator(
     skipFormat: true,
   });
 
+  const { wrapAngularDevkitSchematic } = await import(
+    '@nrwl/devkit/ngcli-adapter'
+  );
   const angularAppSchematic = wrapAngularDevkitSchematic(
     '@schematics/angular',
     'application'

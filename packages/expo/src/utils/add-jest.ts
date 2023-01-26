@@ -1,5 +1,5 @@
 import { Tree } from '@nrwl/devkit';
-import { jestProjectGenerator } from '@nrwl/jest';
+import { jestProjectGenerator } from '@nrwl/jest/generators';
 
 export async function addJest(
   host: Tree,

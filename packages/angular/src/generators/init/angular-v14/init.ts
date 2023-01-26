@@ -8,7 +8,7 @@ import {
   Tree,
   updateNxJson,
 } from '@nrwl/devkit';
-import { jestInitGenerator } from '@nrwl/jest';
+import { jestInitGenerator } from '@nrwl/jest/generators';
 import { Linter } from '@nrwl/linter';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
 import { backwardCompatibleVersions } from '../../../utils/backward-compatible-versions';

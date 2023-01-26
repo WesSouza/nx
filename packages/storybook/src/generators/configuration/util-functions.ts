@@ -24,7 +24,7 @@ import {
   TsConfig,
 } from '../../utils/utilities';
 import { StorybookConfigureSchema } from './schema';
-import { getRootTsConfigPathInTree } from '@nrwl/workspace/src/utilities/typescript';
+import { getRootTsConfigPathInTree } from '@nrwl/js';
 import { forEachExecutorOptions } from '@nrwl/workspace/src/utilities/executor-options-utils';
 import { UiFramework, UiFramework7 } from '../../utils/models';
 

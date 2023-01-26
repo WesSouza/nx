@@ -1200,7 +1200,7 @@ Ensure that dependencies and devDependencies from package.json are installed at 
 For example:
 
 ```typescript
-ensurePackage(tree, {}, { '@nrwl/jest': nxVersion });
+ensurePackage(tree, '@nrwl/jest', nxVersion);
 ```
 
 This will check that @nrwl/jest@<nxVersion> exists in devDependencies.

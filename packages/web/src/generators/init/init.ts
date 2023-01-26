@@ -1,4 +1,4 @@
-import { cypressInitGenerator } from '@nrwl/cypress';
+import { cypressInitGenerator } from '@nrwl/cypress/src/generators/init/init';
 import {
   addDependenciesToPackageJson,
   convertNxGenerator,
@@ -7,15 +7,16 @@ import {
   removeDependenciesFromPackageJson,
   Tree,
 } from '@nrwl/devkit';
-import { jestInitGenerator } from '@nrwl/jest';
+import { jestInitGenerator } from '@nrwl/jest/generators';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import { addBabelInputs } from '@nrwl/js/src/utils/add-babel-inputs';
+import { initGenerator as jsInitGenerator } from '@nrwl/js';
 import {
   nxVersion,
   tsLibVersion,
   typesNodeVersion,
 } from '../../utils/versions';
 import { Schema } from './schema';
-import { addBabelInputs } from '@nrwl/js/src/utils/add-babel-inputs';
 
 function updateDependencies(tree: Tree, schema: Schema) {
   removeDependenciesFromPackageJson(tree, ['@nrwl/web'], []);
@@ -41,10 +42,13 @@ function updateDependencies(tree: Tree, schema: Schema) {
 }
 
 export async function webInitGenerator(tree: Tree, schema: Schema) {
+  await jsInitGenerator(tree, {
+    js: false,
+  });
   let tasks: GeneratorCallback[] = [];
 
   if (!schema.unitTestRunner || schema.unitTestRunner === 'jest') {
-    const jestTask = jestInitGenerator(tree, {
+    const jestTask = await jestInitGenerator(tree, {
       skipPackageJson: schema.skipPackageJson,
     });
     tasks.push(jestTask);

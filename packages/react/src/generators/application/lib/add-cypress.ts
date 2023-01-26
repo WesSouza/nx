@@ -6,8 +6,11 @@ export async function addCypress(host: Tree, options: NormalizedSchema) {
   if (options.e2eTestRunner !== 'cypress') {
     return () => {};
   }
+
   await ensurePackage(host, '@nrwl/cypress', nxVersion);
-  const { cypressProjectGenerator } = await import('@nrwl/cypress');
+  const { cypressProjectGenerator } = await import(
+    '@nrwl/cypress/src/generators/cypress-project/cypress-project'
+  );
 
   return await cypressProjectGenerator(host, {
     ...options,

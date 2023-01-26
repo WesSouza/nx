@@ -9,6 +9,7 @@ import {
   updateJson,
 } from '@nrwl/devkit';
 import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import { updateRootTsConfig } from '@nrwl/js';
 
 import { nxVersion } from '../../utils/versions';
 import componentGenerator from '../component/component';
@@ -20,7 +21,6 @@ import { addRollupBuildTarget } from './lib/add-rollup-build-target';
 import { addLinting } from './lib/add-linting';
 import { updateAppRoutes } from './lib/update-app-routes';
 import { createFiles } from './lib/create-files';
-import { updateBaseTsConfig } from './lib/update-base-tsconfig';
 import { extractTsConfigBase } from '../../utils/create-ts-config';
 import { installCommonDependencies } from './lib/install-common-dependencies';
 import { setDefaults } from './lib/set-defaults';
@@ -38,8 +38,6 @@ export async function libraryGenerator(host: Tree, schema: Schema) {
     options.style = 'none';
   }
 
-  extractTsConfigBase(host);
-
   const initTask = await initGenerator(host, {
     ...options,
     e2eTestRunner: 'none',
@@ -48,6 +46,8 @@ export async function libraryGenerator(host: Tree, schema: Schema) {
     skipHelperLibs: options.bundler === 'vite',
   });
   tasks.push(initTask);
+
+  extractTsConfigBase(host);
 
   addProjectConfiguration(host, options.name, {
     root: options.projectRoot,
@@ -63,7 +63,7 @@ export async function libraryGenerator(host: Tree, schema: Schema) {
   createFiles(host, options);
 
   if (!options.skipTsConfig) {
-    updateBaseTsConfig(host, options);
+    updateRootTsConfig(host, options);
   }
 
   // Set up build target

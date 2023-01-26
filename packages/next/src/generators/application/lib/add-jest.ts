@@ -1,5 +1,5 @@
 import { joinPathFragments, readJson, Tree, updateJson } from '@nrwl/devkit';
-import { jestProjectGenerator } from '@nrwl/jest';
+import { jestProjectGenerator } from '@nrwl/jest/generators';
 import { NormalizedSchema } from './normalize-options';
 
 export async function addJest(host: Tree, options: NormalizedSchema) {

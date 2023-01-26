@@ -77,7 +77,10 @@ async function addLinting(host: Tree, options: NormalizedSchema) {
   return runTasksInSerial(...tasks);
 }
 
-export async function applicationGenerator(host: Tree, schema: Schema) {
+export async function applicationGenerator(
+  host: Tree,
+  schema: Schema
+): Promise<GeneratorCallback> {
   const tasks = [];
 
   const options = normalizeOptions(host, schema);

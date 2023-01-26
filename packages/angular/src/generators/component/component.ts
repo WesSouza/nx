@@ -6,7 +6,6 @@ import {
   readProjectConfiguration,
   stripIndents,
 } from '@nrwl/devkit';
-import { wrapAngularDevkitSchematic } from '@nrwl/devkit/ngcli-adapter';
 import { pathStartsWith } from '../utils/path';
 import { exportComponentInEntryPoint } from './lib/component';
 import { normalizeOptions } from './lib/normalize-options';
@@ -30,6 +29,9 @@ export async function componentGenerator(tree: Tree, rawOptions: Schema) {
 
   checkPathUnderProjectRoot(tree, options);
 
+  const { wrapAngularDevkitSchematic } = await import(
+    '@nrwl/devkit/ngcli-adapter'
+  );
   const angularComponentSchematic = wrapAngularDevkitSchematic(
     '@schematics/angular',
     'component'

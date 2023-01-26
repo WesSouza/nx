@@ -13,7 +13,7 @@ import {
   updateJson,
   updateNxJson,
 } from '@nrwl/devkit';
-import { getRelativePathToRootTsConfig } from '@nrwl/workspace/src/utilities/typescript';
+import { getRelativePathToRootTsConfig } from '@nrwl/js';
 import { join } from 'path';
 import { workspaceLintPluginDir } from '../../utils/workspace-lint-rules';
 import { swcCoreVersion, swcNodeVersion } from 'nx/src/utils/versions';

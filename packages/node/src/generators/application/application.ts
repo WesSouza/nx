@@ -20,16 +20,14 @@ import {
   updateProjectConfiguration,
   updateTsConfigsToJs,
 } from '@nrwl/devkit';
-
+import { Linter, lintProjectGenerator } from '@nrwl/linter';
+import { jestProjectGenerator } from '@nrwl/jest/generators';
+import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
+import { getRelativePathToRootTsConfig } from '@nrwl/js';
+import * as shared from '@nrwl/workspace/src/utils/create-ts-config';
 import { join } from 'path';
 
-import { Linter, lintProjectGenerator } from '@nrwl/linter';
-import { jestProjectGenerator } from '@nrwl/jest';
-import { runTasksInSerial } from '@nrwl/workspace/src/utilities/run-tasks-in-serial';
-
-import { Schema } from './schema';
 import { initGenerator } from '../init/init';
-import { getRelativePathToRootTsConfig } from '@nrwl/workspace/src/utilities/typescript';
 import {
   esbuildVersion,
   expressTypingsVersion,
@@ -39,10 +37,10 @@ import {
   koaVersion,
   nxVersion,
 } from '../../utils/versions';
-
-import * as shared from '@nrwl/workspace/src/utils/create-ts-config';
 import { e2eProjectGenerator } from '../e2e-project/e2e-project';
 import { setupDockerGenerator } from '../setup-docker/setup-docker';
+
+import { Schema } from './schema';
 
 export interface NormalizedSchema extends Schema {
   appProjectRoot: string;

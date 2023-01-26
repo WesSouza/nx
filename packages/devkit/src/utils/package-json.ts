@@ -323,7 +323,7 @@ function requiresRemovingOfPackages(
  *
  * For example:
  * ```typescript
- * ensurePackage(tree, {}, { '@nrwl/jest': nxVersion })
+ * ensurePackage(tree, '@nrwl/jest', nxVersion)
  * ```
  * This will check that @nrwl/jest@<nxVersion> exists in devDependencies.
  * If it exists then function returns, otherwise it will install the package before continuing.

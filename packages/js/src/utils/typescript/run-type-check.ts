@@ -1,8 +1,8 @@
-import { readTsConfig } from '@nrwl/workspace/src/utilities/typescript';
 import * as chalk from 'chalk';
 import * as path from 'path';
 import type { BuilderProgram, Diagnostic, Program } from 'typescript';
 import { codeFrameColumns } from '../code-frames/code-frames';
+import { readTsConfig } from '../../utils/typescript/ts-config';
 
 export interface TypeCheckResult {
   warnings?: string[];
